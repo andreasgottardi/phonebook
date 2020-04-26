@@ -1,0 +1,29 @@
+{
+	"properties": [
+		{
+			"name": "ldap.url",
+			"type": "java.lang.String",
+			"description": "URL to ldap server for user verification."
+		},{
+			"name": "ldap.domain",
+			"type": "java.lang.String",
+			"description": "FQDN of the domain."
+		},{
+			"name": "ldap.basedn",
+			"type": "java.lang.String",
+			"description": "BaseDN for ldap server."
+		},{
+			"name": "ldap.username",
+			"type": "java.lang.String",
+			"description": "Username for bind."
+		},{
+			"name": "ldap.password",
+			"type": "java.lang.String",
+			"description": "Password for bind."
+		},{
+			"name": "ldap.usergroup",
+			"type": "java.lang.String",
+			"description": "Group to check for membership of users."
+		}
+	]
+}

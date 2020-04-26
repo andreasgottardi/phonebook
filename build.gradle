@@ -1,0 +1,125 @@
+plugins {
+	
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id 'maven-publish'
+}
+
+/* This file enables JUnit tests in this project. */
+apply from: 'https://www.schrotti12.at/junit.gradle'
+
+group = 'at.goasystems'
+version = '0.0.1'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+
+ext {
+	/* The version to include in this project. */
+	reactmajorversion = 16
+}
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+	reports {
+		html.enabled = true
+	}
+}
+
+
+dependencies {
+
+	implementation 'org.springframework.boot:spring-boot-starter-jersey'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web-services'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	// Gson
+	implementation 'com.google.code.gson:gson:2.8.6'
+
+	// Logback
+	implementation 'org.slf4j:slf4j-api:1.7.29'
+	runtimeOnly 'ch.qos.logback:logback-core:1.2.3'
+	runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
+}
+
+/* Maven publish logic enabling Gradle to build jar files for sources, javadoc and test code. */
+
+task sourcesJar(type: Jar, dependsOn: classes, group: "build", description: "Generate sources jar") {
+		classifier = 'sources'
+		from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc, group: "build", description: "Generate Javadoc jar") {
+		classifier = 'javadoc'
+		from javadoc.destinationDir
+}
+
+task testJar(type: Jar, dependsOn: javadoc, group: "build", description: "Generate tests jar") {
+		classifier = 'tests'
+		from sourceSets.test.output
+}
+
+configurations {
+	[apiElements, runtimeElements].each {
+		it.outgoing.artifacts.removeIf { it.buildDependencies.getDependencies(null).contains(jar) }
+		it.outgoing.artifact(bootJar)
+	}
+}
+
+publishing {
+	publications {
+		testsrv(MavenPublication) {
+			from components.java
+			artifact sourcesJar
+			artifact javadocJar
+			artifact testJar
+		}
+	}
+
+	repositories {
+		maven {
+			url = REPO_DIR
+		}
+	}
+}
+
+/* Task dependency definitions. */
+publish.dependsOn build
+publish.mustRunAfter build
+
+build.dependsOn clean
+build.mustRunAfter clean
+
+task downloadReact {
+	group = 'React'
+	description = 'Downloads react to the local workspace.'
+
+	doLast {
+		def f = new File(rootProject.projectDir.absolutePath + '/src/main/resources/static/react.production.min.js')
+		if (!f.exists()) {
+			new URL('https://unpkg.com/react@' + reactmajorversion + '/umd/react.production.min.js').withInputStream{ i -> f.withOutputStream{ it << i }}
+		}
+
+		f = new File(rootProject.projectDir.absolutePath + '/src/main/resources/static/react-dom.production.min.js')
+		if (!f.exists()) {
+			new URL('https://unpkg.com/react-dom@' + reactmajorversion + '/umd/react-dom.production.min.js').withInputStream{ i -> f.withOutputStream{ it << i }}
+		}
+	}
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Phonebook</title>
+		<script src="/react.production.min.js"></script>
+		<script src="/react-dom.production.min.js"></script>
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<style type="text/css">
+			
+			* {
+				font-family: sans-serif;
+			}
+			
+			#title {
+				text-align: center;
+			}
+			
+			#search {
+				padding: 2pt;
+				margin: 2pt;
+				width: 256pt;
+				border-radius: 4pt;
+				padding: 4pt;
+				margin: 2pt 8pt;
+				border: 1px solid #cccccc;
+			}
+			
+			#searchcontainer {
+				text-align: center;
+				padding: 8pt 0pt 32pt 0pt;
+			}
+			
+			.userbox{
+				width: 350px;
+				float: left;
+			}
+			
+			.shortcut{
+				text-align: center;
+				background-color: #aaa;
+				padding: 4pt;
+				text-transform: uppercase;
+				font-weight: bold;
+				color: #ffffff;
+			}
+			
+			.clear{
+				clear: both;
+			}	
+			
+			.avatar{
+				display: block;
+			}
+			
+			.userprop {
+				padding: 1pt 4pt;
+				width: 100%;
+			}
+			
+			.userleft {
+				width: 143px;
+				float: left;
+			}
+			
+			.userright {
+				float: left;
+			}
+			
+			#userlist{
+				width: 100%;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<h1 id="title">Phonebook</h1>
+		<div id="content"></div>
+		<script src="phonebook.js"></script>
+	</body>
+</html>
