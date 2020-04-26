@@ -41,8 +41,13 @@ Development is often done using tests. The configuration for LDAP access has to 
 
 ![Settings dialogue](/doc/run_config3.png)
 
-To use this example the file "TestLdap.test.launch.tpl" in the directory "launchers" has to be copied to "TestLdap.test.launch". Then it can be configured over the run configurations dialogue shown in the screenshot above.
+To use this example the file "TestLdap.launch.tpl" in the directory "launchers" has to be copied to "TestLdap.launch". Then it can be configured over the run configurations dialogue shown in the screenshot above.
 
 ### React
 
-The react libraries are stored locally.
+The react libraries are stored locally and can be downloaded using the Gradle task "downloadReact". The used React major version is defined in the ext block in the "build.gradle" file.
+```
+ext {
+	reactmajorversion = 16
+}
+```
