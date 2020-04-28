@@ -45,7 +45,15 @@ To use this example the file "TestLdap.launch.tpl" in the directory "launchers" 
 
 ### React
 
-The react libraries are stored locally and can be downloaded using the Gradle task "downloadReact". The used React major version is defined in the ext block in the "build.gradle" file.
+The react libraries are stored locally and can be downloaded using the Gradle task "downloadReact":
+```
+.\gradlew.bat downloadReact
+```
+This can also be abbreviated to
+```
+.\gradlew.bat dR
+```
+ The used React major version is defined in the ext block in the "build.gradle" file.
 ```
 ext {
 	reactmajorversion = 16
