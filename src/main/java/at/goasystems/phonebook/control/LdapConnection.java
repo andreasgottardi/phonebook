@@ -102,11 +102,11 @@ public class LdapConnection {
 	}
 
 	/**
-	 * Returns a map with all companies the users belong to and the number of users
-	 * per company.
+	 * * Returns a map with all companies the users belong to and the number of
+	 * users per company.
 	 * 
-	 * @param List of users.
-	 * @return A map with all companies and number of users.
+	 * @param users List of users.
+	 * @return Map of companies.
 	 */
 	public Map<String, Integer> getCompanies(List<User> users) {
 		Map<String, Integer> companies = new HashMap<>();
