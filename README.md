@@ -43,6 +43,22 @@ Development is often done using tests. The configuration for LDAP access has to 
 
 To use this example the file "TestLdap.launch.tpl" in the directory "launchers" has to be copied to "TestLdap.launch". Then it can be configured over the run configurations dialogue shown in the screenshot above.
 
+#### Gradle configuration
+There are two task extensions in the file "build.gradle":
+```
+tasks.withType(Test) {
+	systemProperties = System.properties
+}
+
+bootRun {
+	systemProperties = System.properties
+}
+```
+These two extensions forward the properties given to the Gradle command with the parameter "-D" to the application. A Gradle execution with configuration parameters would look like this:
+```
+.\gradlew.bat clean build test -D'ldap.url=ldaps://dom.example.com:636' -D'ldap.domain=dom.example.com' -D'ldap.basedn=DC=dom,DC=example,DC=com' -D'ldap.username=username' -D'ldap.password=password' -D'ldap.usergroup=CN=Phonebook,CN=Users,DC=dom,DC=example,DC=com'
+```
+Instead of the task "test" the task "bootRun" could also be configured.
 ### React
 
 The react libraries are stored locally and can be downloaded using the Gradle task "downloadReact":

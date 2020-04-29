@@ -123,3 +123,15 @@ task downloadReact {
 		}
 	}
 }
+
+/* 
+  The next following two task extensions allow system properties to be passed to the VM and thus to configure 
+  Spring Boot configuration values via Gradle command line by passing them with the "-D" parameter.
+*/
+tasks.withType(Test) {
+	systemProperties = System.properties
+}
+
+bootRun {
+	systemProperties = System.properties
+}
