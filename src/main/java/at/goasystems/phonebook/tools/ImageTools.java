@@ -29,9 +29,10 @@ public class ImageTools {
 				w = (w / m) * (m - 1);
 				h = (h / m) * (m - 1);
 				if (w < targetWidth) {
+					double percent = ((100.0 / w) * targetWidth) / 100.0;
 					w = targetWidth;
 					/* Recalculate the height. */
-					h = (int) (h * (((100.0 / w) * targetWidth) / 100.0));
+					h = (int) (h * percent);
 				}
 			}
 
