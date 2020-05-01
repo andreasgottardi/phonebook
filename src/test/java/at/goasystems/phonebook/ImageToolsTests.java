@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -27,7 +26,6 @@ class ImageToolsTests {
 					.scaleImageToWidth(ImageIO.read(ImageToolsTests.class.getResourceAsStream("/example1.jpg")), 143);
 			assertTrue(bi.getWidth() == 143);
 			assertTrue(bi.getHeight() == 143);
-			ImageIO.write(bi, "PNG", new File("C:/Users/ago/Desktop/pngPhoto.png"));
 		} catch (IOException e) {
 			logger.error("Error resizing image.", e);
 		}
@@ -37,7 +35,6 @@ class ImageToolsTests {
 					.scaleImageToWidth(ImageIO.read(ImageToolsTests.class.getResourceAsStream("/example2.jpg")), 143);
 			assertTrue(bi.getWidth() == 143);
 			assertFalse(bi.getHeight() == 143);
-			ImageIO.write(bi, "PNG", new File("C:/Users/ago/Desktop/pngPhoto.png"));
 		} catch (IOException e) {
 			logger.error("Error resizing image.", e);
 		}
