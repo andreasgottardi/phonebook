@@ -1,5 +1,6 @@
 package at.goasystems.phonebook.tools;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -50,6 +51,22 @@ public class InputOutput {
 		} catch (IOException e) {
 			logger.error(DEF_EX_MESSAGE, e);
 			return "";
+		}
+	}
+
+	public static byte[] readBytes(InputStream is) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			byte[] buffer = new byte[1024];
+			int read = is.read(buffer);
+			while (read != -1) {
+				baos.write(buffer, 0, read);
+				read = is.read(buffer);
+			}
+			return baos.toByteArray();
+		} catch (IOException e) {
+			logger.error(DEF_EX_MESSAGE, e);
+			return baos.toByteArray();
 		}
 	}
 
