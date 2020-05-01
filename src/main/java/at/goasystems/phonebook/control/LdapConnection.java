@@ -135,7 +135,7 @@ public class LdapConnection {
 			byte[] pictbytes = null;
 			try {
 				BufferedImage avatar = ImageTools
-						.resizeImage(ImageIO.read(LdapConnection.class.getResourceAsStream("/avatar.jpg")));
+						.scaleImageToWidth(ImageIO.read(LdapConnection.class.getResourceAsStream("/avatar.jpg")), 143);
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(avatar, "JPEG", baos);
 				pictbytes = baos.toByteArray();
