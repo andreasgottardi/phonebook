@@ -1,6 +1,7 @@
 package at.goasystems.phonebook.control;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -127,24 +128,27 @@ public class LdapConnection {
 	}
 
 	public String getAvatar(Attribute jpegphoto) throws NamingException {
-		if (jpegphoto != null) {
-			byte[] bytes = jpegphoto.get() == null ? null : convertObjToByteArray(jpegphoto.get());
-			byte[] binarydata = bytes == null ? null : extractJpegPhoto(bytes);
-			return binarydata == null ? "" : Base64.encodeBase64String(binarydata);
-		} else {
-			byte[] pictbytes = null;
-			try {
-				BufferedImage avatar = ImageTools.scaleImageToWidth(
-						ImageIO.read(LdapConnection.class.getResourceAsStream("/defaultuserpicture.jpg")), 143);
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				ImageIO.write(avatar, "JPEG", baos);
-				pictbytes = baos.toByteArray();
-				baos.close();
-			} catch (IOException e) {
-				logger.error("Error generating avatar.", e);
+
+		byte[] pictbytes = null;
+		BufferedImage bi = null;
+
+		try {
+			if (jpegphoto != null) {
+				byte[] bytes = jpegphoto.get() == null ? null : convertObjToByteArray(jpegphoto.get());
+				byte[] binarydata = bytes == null ? null : extractJpegPhoto(bytes);
+				bi = ImageIO.read(new ByteArrayInputStream(binarydata));
+			} else {
+				bi = ImageIO.read(LdapConnection.class.getResourceAsStream("/defaultuserpicture.jpg"));
 			}
-			return String.format("%s", new String(Base64.encodeBase64(pictbytes)));
+			bi = ImageTools.scaleImageToWidth(bi, 143);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(bi, "JPEG", baos);
+			pictbytes = baos.toByteArray();
+			baos.close();
+		} catch (IOException e) {
+			logger.error("Error generating user picture.", e);
 		}
+		return Base64.encodeBase64String(pictbytes);
 	}
 
 	public NamingEnumeration<SearchResult> search(String searchFilter) {
